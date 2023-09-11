@@ -20,10 +20,10 @@ const getsingleworkout = async(req,res)=>{
 }
 //create new workout
 const createworkout = async(req,res)=> {
-    const {title,load,reps} = req.body;
+    const {title,loads,reps} = req.body;
 
     try{
-        const workoute = await workout.create({title,load,reps})
+        const workoute = await workout.create({title,loads,reps})
         res.status(200).json(workoute)
     }catch(error){
         res.status(404).json({error:error.message})

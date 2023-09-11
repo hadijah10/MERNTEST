@@ -11,7 +11,7 @@ const workoutSchema = new mongoose.Schema({
         type:Number,
         required: true
     },
-    load:{
+    loads:{
         type:Number,
         require:true
     }

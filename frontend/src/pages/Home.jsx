@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import WorkoutDetails from '../component/WorkoutDetails';
 import WorkoutForm from '../component/WorkoutForm';
+import axios from "axios"
+import { useWorkoutContext } from '../hooks/useWorkoutContext';
 
 export default function Home() {
-    const [workouts,setWorkouts] = useState(null);
+    //const [workouts,setWorkouts] = useState([]);
+    const {workouts,dispatch} = useWorkoutContext()
 
     useEffect(()=>{
         const fetchworkouts = async()=> {
            try{
-            const response = await fetch('http://localhost:4000/api/workouts')
+            const response = await fetch('http://127.0.0.1:4000/api/workouts')
             const rest= await response.json()
             if(response.ok) {
-                setWorkouts(rest )
+              //  setWorkouts(rest )
+              dispatch({type:'SETWORKOUTS',payload:rest})
             }
           }catch(error){
               console.log(error)
@@ -19,6 +23,9 @@ export default function Home() {
            
         }
         fetchworkouts()
+      /* axios.get('http://127.0.0.1:4000/api/workouts').then(response => //setWorkouts(response.data)
+       dispatch({type:'SETWORKOUTS',payload:response})
+       ).catch(error => console.log(error))*/
     },[])
   return (
     <>

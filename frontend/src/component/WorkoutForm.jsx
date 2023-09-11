@@ -1,17 +1,19 @@
 
 import React from "react"
+import axios from "axios"
 import { useState } from "react"
+import {useWorkoutContext} from '../hooks/useWorkoutContext'
 
 
 const WorkoutForm = ()=> {
 const [title,setTitle] = useState('')
-const [loads,setLoads] = useState('')
-const [reps,setReps] = useState('')
+const [loads,setLoads] = useState(0)
+const [reps,setReps] = useState(0)
 const [error,setError] = useState(null)
 
 const handleSubmit = async(e) => {
 e.preventDefault()
-const workout = {title,load,reps}
+const workout = {title,reps,loads}
 
 const response = await fetch('http://localhost:4000/api/workouts',{
     method:'POST',
@@ -22,7 +24,7 @@ const response = await fetch('http://localhost:4000/api/workouts',{
    
 }) 
 const json = await response.json()
-    
+
 if(!response.ok){
     setError(json.error)
 }else{
@@ -31,8 +33,18 @@ setLoads('')
 setReps('')
 setError(null)
 console.log("new workout added "+json)
+dispatch({type:'CREATEDWOORKOUT',payload:json})
 }
-
+/*axios.post('http://localhost:4000/api/workouts',{title,loads,reps})
+.then(resp => {alert("user created")
+//error i
+setTitle('')
+setLoads('')
+setReps('')
+setError(null)
+console.log("new workout added "+json)})
+.catch(err =>{console.log(err)
+    setError(json.error)})*/
 
 }
 
@@ -41,12 +53,13 @@ return(
     <form action="" onSubmit={handleSubmit}>
         <h3>Add a New Workout</h3>
         <label htmlFor="title">Exercise Title:</label>
-        <input type="text" id={title} placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} /><br></br>
+        <input type="text" id="title" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} required/><br></br>
         <label htmlFor="loads">Loads in kg</label>
-        <input type="text" id={loads} placeholder="Loads" value={loads} onChange={e => setLoads(e.target.value)}/><br></br>
+        <input type="number" id="loads" placeholder="Loads" value={loads} onChange={e => setLoads(e.target.value)} required/><br></br>
         <label htmlFor="reps">Reps:</label>
-        <input type="text" id={reps} placeholder="Reps" value={reps} onChange={e => setReps(e.target.value)}/>
+        <input type="number" id="reps" placeholder="Reps" value={reps} onChange={e => setReps(e.target.value)} required/>
     <button onClick={handleSubmit}>Add Workout</button>
+    {error && (<div className='error'>{error}</div>)}
     </form>
     </>
 )
