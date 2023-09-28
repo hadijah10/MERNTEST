@@ -52,7 +52,7 @@ const updateRoute = async(req,res) => {
     if(!mongoose.Types.ObjectId.isValid(id)){
         return res.status(404).json({error: 'No such workout updated'})
     }
-    const up = await workout.findOneAndDUpdate({_id:id},{...req.body})
+    const up = await workout.findOneAndUpdate({_id:id},{...req.body})
     if(!up){
         res.status(404).json({error:'No update'})
     }

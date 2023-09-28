@@ -7,10 +7,14 @@ export const WorkoutReducer = (state,action) => {
             return {
                 workouts:action.payload
             }
-        case 'CREATEWORKOUT ':
+        case 'CREATEWORKOUT':
             return {
                 workouts:[action.payload,...state.workouts]
             }
+        case 'DELETEWORKOUT':
+            return{
+                workouts:[state.workouts.filter(w=>w._id !== action.payload._id)]
+            } 
         default:
             return state
     }

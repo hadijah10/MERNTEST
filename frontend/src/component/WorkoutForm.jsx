@@ -6,9 +6,10 @@ import {useWorkoutContext} from '../hooks/useWorkoutContext'
 
 
 const WorkoutForm = ()=> {
+const {dispatch} = useWorkoutContext()
 const [title,setTitle] = useState('')
-const [loads,setLoads] = useState(0)
-const [reps,setReps] = useState(0)
+const [loads,setLoads] = useState(null)
+const [reps,setReps] = useState(null)
 const [error,setError] = useState(null)
 
 const handleSubmit = async(e) => {
@@ -33,7 +34,7 @@ setLoads('')
 setReps('')
 setError(null)
 console.log("new workout added "+json)
-dispatch({type:'CREATEDWOORKOUT',payload:json})
+dispatch({type:'CREATEWORKOUT',payload:json})
 }
 /*axios.post('http://localhost:4000/api/workouts',{title,loads,reps})
 .then(resp => {alert("user created")
@@ -42,7 +43,9 @@ setTitle('')
 setLoads('')
 setReps('')
 setError(null)
-console.log("new workout added "+json)})
+console.log("new workout added "+json)
+dispatch({type:'CREATEWORKOUT',payload:resp.data})})
+
 .catch(err =>{console.log(err)
     setError(json.error)})*/
 
